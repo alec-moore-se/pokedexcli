@@ -1,7 +1,3 @@
-module github.com/alec-moore-se/internal/pokecache
+module github.com/alec-moore-se/pokedexcli/internal/pokecache
 
-go 1.2.50
-
-require pokeapi v1.0.0
-
-replace pokeapi => ../pokeapi/
+go 1.25.0

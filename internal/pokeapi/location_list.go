@@ -2,6 +2,7 @@ package pokeapi
 
 import (
 	"encoding/json"
+	"github.com/alec-moore-se/pokedexcli/internal/pokecache"
 	"io"
 	"net/http"
 )
