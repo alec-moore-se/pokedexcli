@@ -4,9 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"pokeapi"
 	"strings"
-
-	"github.com/bootdotdev/pokedexcli/internal/pokeapi"
 )
 
 type config struct {
@@ -78,4 +77,3 @@ func getCommands() map[string]cliCommand {
 		},
 	}
 }
-
