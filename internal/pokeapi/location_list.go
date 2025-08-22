@@ -2,7 +2,7 @@ package pokeapi
 
 import (
 	"encoding/json"
-	"github.com/alec-moore-se/pokedexcli/internal/pokecache"
+	_ "github.com/alec-moore-se/pokedexcli/internal/pokecache"
 	"io"
 	"net/http"
 )
@@ -12,6 +12,12 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 	url := baseURL + "/location-area"
 	if pageURL != nil {
 		url = *pageURL
+	}
+
+	if resp, ok := c.clientCache.Get(url); ok {
+		var loc RespShallowLocations
+		json.Unmarshal(resp, &loc)
+		return loc, nil
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -35,6 +41,6 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 	if err != nil {
 		return RespShallowLocations{}, err
 	}
-
+	c.clientCache.Add(url, dat)
 	return locationsResp, nil
 }

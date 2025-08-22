@@ -56,3 +56,15 @@ func commandMapb(cfg *config) error {
 	}
 	return nil
 }
+
+func commandExplore(cfg *config) error {
+	locationsRes, err := cfg.pokeapiClient.ListPokemonInLocation(cfg.nextLocationsURL, cfg.additionalPrompts[0])
+	if err != nil {
+		return err
+	}
+
+	for _, pokeEnc := range locationsRes.PokemonEncounters {
+		fmt.Println(pokeEnc.Pokemon.Name)
+	}
+	return nil
+}

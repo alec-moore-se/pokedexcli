@@ -5,15 +5,14 @@ import (
 	"fmt"
 	"github.com/alec-moore-se/pokedexcli/internal/pokeapi"
 	"os"
-	"pokecache"
 	"strings"
 )
 
 type config struct {
-	pokeCache        *pokecache.Cache
-	pokeapiClient    pokeapi.Client
-	nextLocationsURL *string
-	prevLocationsURL *string
+	pokeapiClient     pokeapi.Client
+	nextLocationsURL  *string
+	prevLocationsURL  *string
+	additionalPrompts []string
 }
 
 func startRepl(cfg *config) {
@@ -28,7 +27,7 @@ func startRepl(cfg *config) {
 		}
 
 		commandName := words[0]
-
+		cfg.additionalPrompts = words[1:]
 		command, exists := getCommands()[commandName]
 		if exists {
 			err := command.callback(cfg)
@@ -76,6 +75,11 @@ func getCommands() map[string]cliCommand {
 			name:        "exit",
 			description: "Exit the Pokedex",
 			callback:    commandExit,
+		},
+		"explore": {
+			name:        "explore",
+			description: "lists pokemons found in specified area",
+			callback:    commandExplore,
 		},
 	}
 }

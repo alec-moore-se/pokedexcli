@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"pokecache"
+	"github.com/alec-moore-se/pokedexcli/internal/pokecache"
 	"testing"
 	"time"
 )
