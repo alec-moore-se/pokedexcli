@@ -101,3 +101,11 @@ func commandInspect(cfg *config) error {
 	}
 	return nil
 }
+
+func commandPokedex(cfg *config) error {
+	fmt.Println("Your Pokedex:")
+	for _, poke := range cfg.storageBox {
+		fmt.Printf("\t-%s\n", poke.Name)
+	}
+	return nil
+}

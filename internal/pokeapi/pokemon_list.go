@@ -290,7 +290,7 @@ type PokemonStats struct {
 }
 
 type PokemonStatsReduced struct {
-	name   string
+	Name   string
 	height int
 	weigth int
 	stats  struct {
@@ -311,7 +311,7 @@ func PokemonStatsToReduced(ps PokemonStats) PokemonStatsReduced {
 	var psr PokemonStatsReduced
 	psr.height = ps.Height
 	psr.weigth = ps.Weight
-	psr.name = strings.ToLower(ps.Name)
+	psr.Name = strings.ToLower(ps.Name)
 	//pokeapi follows this order for the stats
 	psr.stats.hp = uint8(ps.Stats[0].BaseStat)
 	psr.stats.attack = uint8(ps.Stats[1].BaseStat)
@@ -345,7 +345,7 @@ Stats:
 Types:
 	-%s 
 	-%s
-`, psr.name, psr.height, psr.weigth, psr.stats.hp,
+`, psr.Name, psr.height, psr.weigth, psr.stats.hp,
 		psr.stats.attack, psr.stats.defense, psr.stats.special_attack,
 		psr.stats.special_defense, psr.stats.speed, psr.types.primary, psr.types.secondary)
 }
