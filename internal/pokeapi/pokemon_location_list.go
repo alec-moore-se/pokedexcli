@@ -60,10 +60,7 @@ type LocationAreaData struct {
 }
 
 func (c *Client) ListPokemonInLocation(pageURL *string, location_area string) (LocationAreaData, error) {
-	url := baseURL + "/location-area"
-	if pageURL != nil {
-		url = *pageURL
-	}
+	url := baseURL + "/location-area/" + location_area
 
 	if resp, ok := c.clientCache.Get(url); ok {
 		var loc LocationAreaData

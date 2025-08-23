@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 )
 
@@ -60,11 +61,36 @@ func commandMapb(cfg *config) error {
 func commandExplore(cfg *config) error {
 	locationsRes, err := cfg.pokeapiClient.ListPokemonInLocation(cfg.nextLocationsURL, cfg.additionalPrompts[0])
 	if err != nil {
-		return err
+		return fmt.Errorf("Error Occured: %w", err)
 	}
-
+	fmt.Printf("Exploring %s\n", cfg.additionalPrompts[0])
+	fmt.Println("Found Pokemon: ")
 	for _, pokeEnc := range locationsRes.PokemonEncounters {
 		fmt.Println(pokeEnc.Pokemon.Name)
 	}
+	return nil
+}
+
+func commandCatch(cfg *config) error {
+	pokemonInQuestion := cfg.additionalPrompts[0]
+	pokemonRes, err := cfg.pokeapiClient.ListPokemonAttributes(pokemonInQuestion)
+	if err != nil {
+		return err
+	}
+	magicNumber := 40
+	percent := 100
+	fmt.Printf("Throwing a Pokeball at %s...\n", pokemonInQuestion)
+	percentChanceOfCatching := float64((float64(magicNumber) / float64(pokemonRes.BaseExperience)) * float64(percent))
+	actualCatch := rand.Int() % percent
+	if percentChanceOfCatching > float64(actualCatch) {
+		fmt.Printf("%s was caught!\n", pokemonInQuestion)
+	} else {
+		fmt.Printf("%s escaped!\n", pokemonInQuestion)
+	}
+	return nil
+}
+
+func commandInspect(cfg *config) error {
+	
 	return nil
 }
