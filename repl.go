@@ -13,6 +13,7 @@ type config struct {
 	nextLocationsURL  *string
 	prevLocationsURL  *string
 	additionalPrompts []string
+	storageBox        map[string]pokeapi.PokemonStatsReduced
 }
 
 func startRepl(cfg *config) {

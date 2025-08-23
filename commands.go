@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/alec-moore-se/pokedexcli/internal/pokeapi"
 	"math/rand"
 	"os"
 )
@@ -84,6 +85,7 @@ func commandCatch(cfg *config) error {
 	actualCatch := rand.Int() % percent
 	if percentChanceOfCatching > float64(actualCatch) {
 		fmt.Printf("%s was caught!\n", pokemonInQuestion)
+		cfg.storageBox[pokemonInQuestion] = pokeapi.PokemonStatsToReduced(pokemonRes)
 	} else {
 		fmt.Printf("%s escaped!\n", pokemonInQuestion)
 	}
@@ -91,6 +93,11 @@ func commandCatch(cfg *config) error {
 }
 
 func commandInspect(cfg *config) error {
-	
+	poke, ok := cfg.storageBox[cfg.additionalPrompts[0]]
+	if ok {
+		pokeapi.PrintPokemonStats(poke)
+	} else {
+		fmt.Println("you have not caught that pokemon")
+	}
 	return nil
 }

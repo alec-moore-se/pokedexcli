@@ -2,7 +2,9 @@ package pokeapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
+	"strings"
 )
 
 type PokemonStats struct {
@@ -305,11 +307,11 @@ type PokemonStatsReduced struct {
 	}
 }
 
-func pokemonStatsToReduced(ps PokemonStats) PokemonStatsReduced {
+func PokemonStatsToReduced(ps PokemonStats) PokemonStatsReduced {
 	var psr PokemonStatsReduced
 	psr.height = ps.Height
 	psr.weigth = ps.Weight
-	psr.name = ps.Name
+	psr.name = strings.ToLower(ps.Name)
 	//pokeapi follows this order for the stats
 	psr.stats.hp = uint8(ps.Stats[0].BaseStat)
 	psr.stats.attack = uint8(ps.Stats[1].BaseStat)
@@ -323,8 +325,29 @@ func pokemonStatsToReduced(ps PokemonStats) PokemonStatsReduced {
 		psr.types.secondary = ps.Types[1].Type.Name
 	} else {
 		psr.types.primary = ps.Types[0].Type.Name
+		psr.types.secondary = "None"
 	}
 	return psr
+}
+
+func PrintPokemonStats(psr PokemonStatsReduced) {
+	fmt.Printf(
+		`Name: %s
+Height: %d
+Weight: %d
+Stats:
+	-hp: %d 
+	-attack: %d 
+	-defense: %d 
+	-special_attack: %d 
+	-special_defense: %d 
+	-speed: %d
+Types:
+	-%s 
+	-%s
+`, psr.name, psr.height, psr.weigth, psr.stats.hp,
+		psr.stats.attack, psr.stats.defense, psr.stats.special_attack,
+		psr.stats.special_defense, psr.stats.speed, psr.types.primary, psr.types.secondary)
 }
 
 func (c *Client) ListPokemonAttributes(pokemon string) (PokemonStats, error) {
